@@ -1,90 +1,31 @@
 package bank;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Client {
+public interface Client {
+    public Account account(int id);
 
-    private String name;
-    private String surname;
-    private int passportSeries;
-    private int passportNumbers;
+    public ArrayList<Account> allAccount();
 
-    List<Account> accountsList;
+    public ArrayList<Account> allDebitAccount();
 
+    public ArrayList<Account> allCreditAccount();
 
-    public Client(String name, String surname, int passportSeries, int passportNumbers) {
-        this.name = name;
-        this.surname = surname;
-        this.passportSeries = passportSeries;
-        this.passportNumbers = passportNumbers;
-        accountsList = new ArrayList<>(0);
-    }
+    public double sumDebitAccountBalance();
 
-    public Client(String name, String surname, int passportSeries, int passportNumbers, List<Account> accountsList) {
-        this.name = name;
-        this.surname = surname;
-        this.passportSeries = passportSeries;
-        this.passportNumbers = passportNumbers;
-        this.accountsList = accountsList;
-    }
+    public double sumAccruedInterest();
 
-    public Account searchBankAccount(int id) {
-        if(accountsList != null){
-            for (Account account : accountsList) {
-               if(account.getId() == id){
-                   return account;
-               }
-            }
-        }
-        return null;
-    }
+    public double sumAccruedCommissions();
 
-    public List<Account> getAccountsList() {
-        return accountsList;
-    }
+    public double negativeCreditBalance();
 
-    public double totalBalanceAllAccounts(){
-        double sum = 0;
-        for(Account account : getAccountsList()){
-            sum += account.getAccountBalance();
-        }
-        return sum;
-    }
+    public ArrayList<Account> positiveAccountBalance();
 
-    public List<Account> getPositiveAccountList(){
-        List<Account> accountsList = new ArrayList<>();
-        for(Account account : getAccountsList()){
-            if(account.getAccountBalance() > 0){
-                accountsList.add(account);
-            }
-        }
-        return accountsList;
-    }
+    public void removeAccount(int id);
 
-    public void deletingAccount(int id){
-        int deleteAccountIndex = 0;
-        for(Account account : accountsList){
-            if(account.getId() == id){
-                deleteAccountIndex = accountsList.indexOf(account);
-            }
-        }
-        accountsList.remove(deleteAccountIndex);
-    }
+    public void addingAccount(Account account);
 
-    public void addingBankAccount(Account account){
-        accountsList.add(account);
-    }
+    public void debitingAmountFromAccount(Account account, double amount);
 
-    public void reduceBankAccount(Account account, double amount){
-        if(accountsList.contains(account)){
-            account.setAccountBalance(account.getAccountBalance() - amount);
-        }
-    }
-
-    public void increaseBankAccount(Account account, double amount){
-        if(accountsList.contains(account)){
-            account.setAccountBalance(account.getAccountBalance() + amount);
-        }
-    }
+    public void addingAmountFromAccount(Account account, double amount);
 }
