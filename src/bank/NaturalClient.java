@@ -2,6 +2,7 @@ package bank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class NaturalClient implements Client {
 
@@ -10,8 +11,22 @@ public class NaturalClient implements Client {
     private int passportSeries;
     private int passportNumbers;
 
-    List<Account> accountsList;
+    ArrayList<Account> accountsList;
 
+    @Override
+    public String toString() {
+        return new StringBuilder("NaturalClient{name=")
+                .append(name)
+                .append(", surname=")
+                .append(surname)
+                .append(", passportSeries=")
+                .append(passportSeries)
+                .append(", passportNumbers=")
+                .append(passportNumbers)
+                .append(", accountsList=")
+                .append(accountsList)
+                .append('}').toString();
+    }
 
     public NaturalClient(String name, String surname, int passportSeries, int passportNumbers) {
         this.name = name;
@@ -21,7 +36,7 @@ public class NaturalClient implements Client {
         accountsList = new ArrayList<>(0);
     }
 
-    public NaturalClient(String name, String surname, int passportSeries, int passportNumbers, List<Account> accountsList) {
+    public NaturalClient(String name, String surname, int passportSeries, int passportNumbers, ArrayList<Account> accountsList) {
         this.name = name;
         this.surname = surname;
         this.passportSeries = passportSeries;
@@ -40,7 +55,7 @@ public class NaturalClient implements Client {
         return null;
     }
 
-    public List<Account> getAccountsList() {
+    public ArrayList<Account> getAccountsList() {
         return accountsList;
     }
 
@@ -52,8 +67,8 @@ public class NaturalClient implements Client {
         return sum;
     }
 
-    public List<Account> getPositiveAccountList(){
-        List<Account> accountsList = new ArrayList<>();
+    public ArrayList<Account> getPositiveAccountList(){
+        ArrayList<Account> accountsList = new ArrayList<>();
         for(Account account : getAccountsList()){
             if(account.getAccountBalance() > 0){
                 accountsList.add(account);
@@ -82,78 +97,115 @@ public class NaturalClient implements Client {
         }
     }
 
-    public void increaseBankAccount(Account account, double amount){
+    public void increaseBankAccount(Account account, double amount) {
         if(accountsList.contains(account)){
-            account.debitingTheAmount(amount);
+            account.replenishmentAccountBalance(amount);
         }
     }
 
     @Override
     public Account account(int id) {
-        return null;
+        return searchBankAccount(id);
     }
 
     @Override
     public ArrayList<Account> allAccount() {
-        return null;
+        return getAccountsList();
     }
 
     @Override
     public ArrayList<Account> allDebitAccount() {
-        return null;
+        ArrayList<Account> arrayList = new ArrayList<>();
+        for (Account account : allAccount()){
+            if (account instanceof DebitAccount){
+                arrayList.add(account);
+            }
+        }
+        return arrayList;
     }
 
     @Override
     public ArrayList<Account> allCreditAccount() {
-        return null;
+        ArrayList<Account> arrayList = new ArrayList<>();
+        for (Account account : allAccount()){
+            if (account instanceof CreditAccount){
+                arrayList.add(account);
+            }
+        }
+        return arrayList;
     }
 
     @Override
     public double sumDebitAccountBalance() {
-        return 0;
+        double sum = 0;
+        ArrayList<Account> arrayList = allDebitAccount();
+        for(Account account : arrayList){
+            sum += account.getAccountBalance();
+        }
+        return sum;
     }
 
     @Override
     public double sumAccruedInterest() {
-        return 0;
+        double sum = 0;
+        ArrayList<Account> arrayList = allCreditAccount();
+        for(Account account : arrayList){
+            sum += ((CreditAccount) account).getAccruedInterest();
+        }
+        return sum;
     }
 
     @Override
     public double sumAccruedCommissions() {
-        return 0;
+        double sum = 0;
+        ArrayList<Account> arrayList = allCreditAccount();
+        for(Account account : arrayList){
+            sum += ((CreditAccount) account).getAccruedCommissions();
+        }
+        return sum;
     }
 
     @Override
     public double negativeCreditBalance() {
-        return 0;
+        double sum = 0;
+        ArrayList<Account> arrayList = allCreditAccount();
+        for(Account account : arrayList){
+            if(account.getAccountBalance() < 0) {
+                sum += account.getAccountBalance();
+            }
+        }
+        return sum;
     }
 
     @Override
     public ArrayList<Account> positiveAccountBalance() {
-        return null;
+        ArrayList<Account> positiveAccountBalance = new ArrayList<>();
+        ArrayList<Account> arrayList = allAccount();
+        for(Account account : arrayList){
+            if(account.getAccountBalance() > 0) {
+                positiveAccountBalance.add(account);
+            }
+        }
+        return positiveAccountBalance;
     }
 
     @Override
-    public void removeAccount(int id) {
-
+    public void removeAccount(int id) { // дублирование метода deletingAccount(int id)
+        deletingAccount(id);
     }
 
     @Override
-    public void addingAccount(Account account) {
-
+    public void addingAccount(Account account) { // дублирование метода addingBankAccount(Account account)
+        addingBankAccount(account);
     }
 
     @Override
-    public void debitingAmountFromAccount(Account account, double amount) {
-
+    public void debitingAmountFromAccount(Account account, double amount) { // дублирование метода reduceBankAccount
+        reduceBankAccount(account, amount);
     }
 
     @Override
-    public void addingAmountFromAccount(Account account, double amount) {
-
+    public void addingAmountFromAccount(Account account, double amount) { // дублирование метода increaseBankAccount
+        increaseBankAccount(account, amount);
     }
-
-    /*
-- реализуйте методы интерфейса
-     */
 }

@@ -17,4 +17,18 @@ public class DebitAccount extends Account {
     public DebitAccount(int id) {
         super(id);
     }
+
+    @Override
+    public String toString() {
+        return new StringBuilder("DebitAccount{Id:")
+                .append(getId())
+                .append(", AccountBalance:")
+                .append(getAccountBalance())
+                .append(", ServiceFee:")
+                .append(getServiceFee())
+                .append(", Currency:")
+                .append(getCurrency())
+                .append('}')
+                .toString();
+    }
 }

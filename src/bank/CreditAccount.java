@@ -2,12 +2,29 @@ package bank;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class CreditAccount extends Account {
     private double interestRate; // годовая процентная ставка в процентах
     private double creditLimit; //лимит по кредитной карте
     private double accruedInterest; // начисленные проценты
     private double accruedCommissions; // начисленные комиссионные
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditAccount that = (CreditAccount) o;
+        return Double.compare(that.interestRate, interestRate) == 0
+                && Double.compare(that.creditLimit, creditLimit) == 0
+                && Double.compare(that.accruedInterest, accruedInterest) == 0
+                && Double.compare(that.accruedCommissions, accruedCommissions) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(interestRate, creditLimit, accruedInterest, accruedCommissions);
+    }
 
     public CreditAccount(int id, double accountBalance, double serviceFee) {
         super(id, accountBalance, serviceFee);
@@ -81,6 +98,19 @@ public class CreditAccount extends Account {
 
     public double getAccruedCommissions() {
         return accruedCommissions;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder().append("CreditAccount{interestRate=")
+                .append(interestRate)
+                .append(", creditLimit=")
+                .append(creditLimit)
+                .append(", accruedInterest=")
+                .append(accruedInterest)
+                .append(", accruedCommissions=")
+                .append(accruedCommissions)
+                .append('}').toString();
     }
 
     @Override
