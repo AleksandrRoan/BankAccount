@@ -5,11 +5,12 @@ import java.util.Date;
 import java.util.Objects;
 
 public class CreditAccount extends Account {
+
     private double interestRate; // годовая процентная ставка в процентах
     private double creditLimit; //лимит по кредитной карте
     private double accruedInterest; // начисленные проценты
     private double accruedCommissions; // начисленные комиссионные
-
+    //todo: те же замечания по порядку декларации методов
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,8 +27,10 @@ public class CreditAccount extends Account {
         return Objects.hash(interestRate, creditLimit, accruedInterest, accruedCommissions);
     }
 
+    //todo: те же замечания по конструкторам
     public CreditAccount(int id, double accountBalance, double serviceFee) {
         super(id, accountBalance, serviceFee);
+        //todo: дефолтное значение в константу
         interestRate = 0.0;
         creditLimit = 0.0;
         accruedInterest = 0.0;

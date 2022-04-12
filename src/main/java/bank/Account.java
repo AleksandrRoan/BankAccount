@@ -3,13 +3,13 @@ package bank;
 import java.util.Objects;
 
 public abstract class Account {
-
+    //todo: порядок декларации полей: сначала константы, потом поля
     private int id;
     private double accountBalance;
     private static final double DEFAULT_BALANCE = 0.0;
     private double serviceFee; //комиссия за обслуживание
     private Currency currency;
-
+    //todo: порядок декларации методов: конструкторы, методы доступа, equals,hashcode,toString, прочие
     @Override
     public String toString() {
         return new StringBuilder()
@@ -25,6 +25,7 @@ public abstract class Account {
                 .toString();
     }
 
+    //todo: узкий конструктор вызывает широкий, не дублируй код
     public Account(int id, double accountBalance, double serviceFee) {
         this.id = id;
         this.accountBalance = accountBalance;
@@ -106,6 +107,7 @@ public abstract class Account {
 
     public void debitingTheAmount(double amount) throws InsufficientFundsException {
         if (accountBalance > amount) {
+            //todo: легко меняется на accountBalance -= amount
             accountBalance = getAccountBalance() - amount;
         } else {
             throw new InsufficientFundsException("Вы пытаетесь списать сумму, превышающую остаток или лимит по карте");

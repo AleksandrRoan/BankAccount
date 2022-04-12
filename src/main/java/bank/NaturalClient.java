@@ -8,11 +8,14 @@ public class NaturalClient implements Client {
 
     private String name;
     private String surname;
+    //todo: на будущее: нет смысла делать серию и номер паспорта числовыми типами, т.к. мы не работаем с ними как с числом
     private int passportSeries;
     private int passportNumbers;
 
+    //todo: модификатор забыл
     ArrayList<Account> accountsList;
 
+    //todo: те же замечания по порядку декларации методов и конструкторам
     @Override
     public String toString() {
         return new StringBuilder("NaturalClient{name=")
@@ -67,6 +70,7 @@ public class NaturalClient implements Client {
         return sum;
     }
 
+    //todo: можно на стримы переделать
     public ArrayList<Account> getPositiveAccountList(){
         ArrayList<Account> accountsList = new ArrayList<>();
         for(Account account : getAccountsList()){
@@ -77,6 +81,9 @@ public class NaturalClient implements Client {
         return accountsList;
     }
 
+    //todo: много где есть этот косяк, напишу здесь. Методы именуются, да, по принципу глаголСуществительное
+    //todo: при этом используется present simple: deleteAccount, addAccount
+    //todo: в ряде случаев имеет смысл упрощение до add, delete и т.д.
     public void deletingAccount(int id){
         int deleteAccountIndex = 0;
         for(Account account : accountsList){
@@ -108,11 +115,16 @@ public class NaturalClient implements Client {
         return searchBankAccount(id);
     }
 
+    //todo: Применимо ко всему коду
+    //todo: При объявлении возвращаемых типов методов, объявлении полей/переменных нужно использовать интерфейсную ссылку
+    //todo: List<Account>
     @Override
     public ArrayList<Account> allAccount() {
         return getAccountsList();
     }
 
+    //todo: следующие два метода дублируют код, отличающийся только одной строчкой.
+    //todo: попробуй переписать эти методы без дублирования
     @Override
     public ArrayList<Account> allDebitAccount() {
         ArrayList<Account> arrayList = new ArrayList<>();
